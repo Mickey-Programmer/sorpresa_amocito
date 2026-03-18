@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Alejandra ❤️</title>
+    <style>
+        body { margin: 0; background-color: #3b1a40; overflow: hidden; font-family: 'Georgia', serif; }
+        #canvas { display: block; }
+        
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(59, 26, 64, 0.95); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 100;
+            color: white; text-align: center; cursor: pointer;
+        }
+        #play-button {
+            background-color: #ff69b4; color: white; border: none; padding: 15px 30px;
+            font-size: 20px; border-radius: 25px; cursor: pointer; margin-top: 20px;
+            font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: 0.3s;
+        }
+        #play-button:hover { background-color: #ff1493; transform: scale(1.05); }
+
+        #final-text {
+            position: absolute; width: 100%; text-align: center; z-index: 10;
+            top: 30px; opacity: 0; transition: opacity 2s; display: none;
+        }
+        .text-line1 { color: white; font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+        .text-line2 { color: #FFD700; font-size: 32px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <h1>Una sorpresa para ti ❤️</h1>
+        <p>Toca el botón para empezar.</p>
+        <button id="play-button">Abrir regalo</button>
+    </div>
+
+    <div id="final-text">
+        <div class="text-line1">Gracias por ser mi vida,</div>
+        <div class="text-line2">Te amo Alejandra ❤️</div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+    
+    <audio id="musica" loop>
+        <source src="cancion.mp3" type="audio/mpeg">
+    </audio>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const musica = document.getElementById('musica');
+const overlay = document.getElementById('overlay');
+const textoFinal = document.getElementById('final-text');
+const PI = Math.PI;
+
+let width, height, scale;
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    scale = Math.min(width, height) / 800;
+}
+window.onresize = resize;
+resize();
+
+function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+function toRad(deg) { return deg * (PI / 180); }
+
+overlay.addEventListener('click', async () => {
+    overlay.style.display = 'none';
+    musica.play();
+    await dibujar_regalo();
+});
+
+async function dibujar_regalo() {
+    const pos_moradas = [[-70, 70], [70, 70], [0, -30], [-120, -70], [120, -70]];
+    const pos_girasoles = [[-110, -10, 75], [110, -10, 75], [-50, -90, 65], [50, -90, 65], [0, 50, 95]]; // Centro al final
+
+    const todas_las_flores = [...pos_moradas, ...pos_girasoles];
+    for (const [x, y] of todas_las_flores) {
+        drawStem(x*scale + width/2, height/2 - y*scale);
+        await sleep(150);
+    }
+
+    drawWrapping();
+    await sleep(600); 
+
+    for (const [x, y] of pos_moradas) {
+        await drawPurpleFlower(x*scale + width/2, height/2 - y*scale, 20*scale);
+        await sleep(300); 
+    }
+
+    for (const [x, y, s] of pos_girasoles) {
+        await drawSunflower(x*scale + width/2, height/2 - y*scale, s*scale);
+        await sleep(400); 
+    }
+
+    await drawFloatingHearts();
+    
+    await sleep(800);
+    textoFinal.style.display = 'block';
+    await sleep(100);
+    textoFinal.style.opacity = 1;
+}
+
+function drawStem(ex, ey) {
+    ctx.strokeStyle = "forestgreen"; ctx.lineWidth = 5*scale;
+    ctx.beginPath();
+    ctx.moveTo(width/2, height/2 + 250*scale); 
+    ctx.lineTo(ex, ey);
+    ctx.stroke();
+    ctx.lineWidth = 1;
+}
+
+function drawWrapping() {
+    ctx.fillStyle = "#d2b48c"; ctx.strokeStyle = "#f5deb3"; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(width/2 - 65*scale, height/2 + 130*scale);
+    ctx.lineTo(width/2 + 65*scale, height/2 + 130*scale);
+    ctx.lineTo(width/2 + 30*scale, height/2 + 350*scale);
+    ctx.lineTo(width/2 - 30*scale, height/2 + 350*scale);
+    ctx.closePath();
+    ctx.fill(); ctx.stroke();
+
+    ctx.strokeStyle = "#ff69b4"; ctx.lineWidth = 8*scale; ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(width/2 - 42*scale, height/2 + 250*scale);
+    ctx.lineTo(width/2 + 42*scale, height/2 + 250*scale);
+    ctx.stroke();
+    ctx.lineWidth = 1;
+}
+
+async function drawPurpleFlower(x, y, radio) {
+    ctx.fillStyle = "plum"; ctx.strokeStyle = "mediumorchid";
+    for (let i = 0; i < 8; i++) {
+        let ang = toRad(i * 45);
+        ctx.beginPath();
+        ctx.arc(x + Math.cos(ang)*radio*0.8, y + Math.sin(ang)*radio*0.8, radio*0.6, 0, PI*2);
+        ctx.fill(); ctx.stroke();
+        await sleep(50); 
+    }
+    ctx.fillStyle = "gold"; ctx.beginPath(); ctx.arc(x, y, radio*0.5, 0, PI*2); ctx.fill();
+}
+
+async function drawSunflower(x, y, escala) {
+    ctx.fillStyle = "gold"; ctx.strokeStyle = "darkorange";
+    const num_petalos = 20;
+    
+    for (let i = 0; i < num_petalos; i++) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(toRad(i * (360/num_petalos)));
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(escala*0.5, escala*0.5, escala*0.5, -escala*0.5, escala, 0);
+        ctx.bezierCurveTo(escala*0.5, escala*0.5, escala*0.5, -escala*0.5, 0, 0);
+        ctx.fill(); ctx.stroke();
+        ctx.restore();
+        await sleep(35);
+    }
+
+    const phi = 137.508 * (PI/180);
+    for (let i = 0; i < 120; i++) {
+        let r = (escala/30) * Math.sqrt(i);
+        let theta = i * phi;
+        let cx = x + r * Math.cos(theta);
+        let cy = y + r * Math.sin(theta);
+        ctx.fillStyle = (i % 2 === 0) ? "#4A2511" : "#2E1400";
+        ctx.beginPath(); ctx.arc(cx, cy, (escala/100)*3, 0, PI*2); ctx.fill();
+        await sleep(10);
+    }
+}
+
+async function drawFloatingHearts() {
+    const posiciones = [[-220, 100], [220, 120], [-160, 200], [180, 30], [0, 160]];
+    ctx.fillStyle = "pink"; ctx.strokeStyle = "red"; ctx.lineWidth = 2;
+    for (const [x, y] of posiciones) {
+        let hx = width/2 + x*scale;
+        let hy = height/2 - y*scale;
+        let s = 15*scale;
+        ctx.beginPath();
+        ctx.moveTo(hx, hy + s*0.3);
+        ctx.bezierCurveTo(hx + s*0.6, hy - s*0.5, hx + s*1.5, hy + s*0.5, hx, hy + s*1.3);
+        ctx.bezierCurveTo(hx - s*1.5, hy + s*0.5, hx - s*0.6, hy - s*0.5, hx, hy + s*0.3);
+        ctx.fill(); ctx.stroke();
+        await sleep(300); 
+    }
+}
+</script>
+</body>
+</html>
