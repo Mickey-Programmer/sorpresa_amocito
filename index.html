@@ -5,41 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Alejandra ❤️</title>
     <style>
-        body { margin: 0; background-color: #3b1a40; overflow: hidden; font-family: 'Georgia', serif; }
+        body { margin: 0; background-color: #3b1a40; overflow: hidden; font-family: 'Georgia', serif; transition: background-color 2s ease; }
         #canvas { display: block; }
         
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(59, 26, 64, 0.95); display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 100;
-            color: white; text-align: center; cursor: pointer;
+            background: rgba(59, 26, 64, 0.98); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 1000;
+            color: #ffd700; text-align: center;
         }
-        #play-button {
-            background-color: #ff69b4; color: white; border: none; padding: 15px 30px;
-            font-size: 20px; border-radius: 25px; cursor: pointer; margin-top: 20px;
-            font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: 0.3s;
+        
+        .btn-magico {
+            background: linear-gradient(135deg, #DA70D6, #8B008B);
+            color: white; border: 2px solid #ffd700; padding: 15px 35px;
+            font-size: 22px; border-radius: 30px; cursor: pointer; margin-top: 20px;
+            font-weight: bold; box-shadow: 0 0 15px rgba(218, 112, 214, 0.6);
+            transition: all 0.4s ease; font-family: 'Georgia', serif;
         }
-        #play-button:hover { background-color: #ff1493; transform: scale(1.05); }
+        .btn-magico:hover { transform: scale(1.08); box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
 
         #final-text {
             position: absolute; width: 100%; text-align: center; z-index: 10;
-            top: 30px; opacity: 0; transition: opacity 2s; display: none;
+            top: 30px; opacity: 0; transition: opacity 2s; display: none; pointer-events: none;
         }
         .text-line1 { color: white; font-size: 24px; font-weight: bold; margin-bottom: 10px; }
-        .text-line2 { color: #FFD700; font-size: 32px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .text-line2 { color: #FFD700; font-size: 32px; font-weight: bold; text-shadow: 2px 2px 6px rgba(0,0,0,0.5); }
+
+        #cont-btn-historia, #cont-btn-final {
+            position: absolute; width: 100%; text-align: center; z-index: 50;
+            bottom: 40px; opacity: 0; display: none; transition: opacity 1s;
+        }
+
+        #carta-grande {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); z-index: 2000; display: none;
+            justify-content: center; align-items: center; opacity: 0; transition: opacity 0.5s;
+            padding: 20px; box-sizing: border-box;
+        }
+        .carta-contenido {
+            background-color: #FDF4E3; border: 4px solid #C4A77D; border-radius: 15px;
+            width: 100%; max-width: 550px; padding: 35px 40px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            color: #4A2511; font-size: 17px; line-height: 1.6;
+            display: flex; flex-direction: column; align-items: center; box-sizing: border-box;
+        }
+        .carta-contenido h2 { 
+            color: #8B008B; margin-top: 0; margin-bottom: 20px; font-size: 26px; 
+            border-bottom: 2px solid #DA70D6; padding-bottom: 10px; text-align: center; width: 100%;
+        }
+        .carta-contenido p {
+            margin: 0 0 12px 0; text-align: justify; width: 100%;
+        }
+        
+        #btn-cerrar {
+            margin-top: 20px; background-color: #8B008B; color: white; border: none; 
+            padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 18px; font-weight: bold;
+            transition: all 0.3s; box-shadow: 0 4px 10px rgba(139, 0, 139, 0.3);
+        }
+        #btn-cerrar:hover { background-color: #DA70D6; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(218, 112, 214, 0.5); }
+
+        #frase-locura {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; max-width: 800px; text-align: center; z-index: 60;
+            color: #FFF9F0; font-size: 32px; font-weight: bold; line-height: 1.4;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.9), 0 0 20px rgba(218, 112, 214, 0.8);
+            opacity: 0; display: none; transition: opacity 3s ease-in-out;
+        }
     </style>
 </head>
 <body>
 
     <div id="overlay">
-        <h1>Una sorpresa para ti ❤️</h1>
-        <p>Toca el botón para empezar.</p>
-        <button id="play-button">Abrir regalo</button>
+        <h1 style="margin-bottom: 10px;">Una sorpresa para ti ❤️</h1>
+        <button id="play-button" class="btn-magico">Comenzar</button>
     </div>
 
     <div id="final-text">
         <div class="text-line1">Gracias por ser mi vida,</div>
         <div class="text-line2">Te amo Alejandra ❤️</div>
+    </div>
+
+    <div id="cont-btn-historia">
+        <button id="btn-nuestra-historia" class="btn-magico">Cartita Para Ti 💌</button>
+    </div>
+
+    <div id="cont-btn-final">
+        <button id="btn-final-magico" class="btn-magico">Final Sorpresa ✨</button>
+    </div>
+
+    <div id="carta-grande">
+        <div class="carta-contenido">
+            <h2>Unas pequeñas palabras</h2>
+            <p>Ya llevamos buen tiempo de conocernos y aun seguimos aqui entre altos y bajos 💖</p>
+            <p>Entre todo lo que hemos pasado quiero que sepas lo mucho que te amo.</p>
+            <p>Desde que llegaste a mi vida, cada momento es especial. Yo se que no todo es color de rosa pero quiero llegar contigo hasta el final.</p>
+            <p>Perdon por todo lo que te he hecho pasar. Se que en ocasiones no lo he hecho bien pero siempre he querido y quiero lo mejor para ti.</p>
+            <p>Gracias por ser tan paciente conmigo, por entenderme y por amarme tal como soy. Eres uno de los pilares mas importantes en mi vida y quiero que sepas que siempre estaré aquí para ti, apoyándote en cada paso que tomes.</p>
+            <p>Te amo con todo mi corazón, y espero que podamos construir un futuro juntos. Y apoyándonos para cumplir con nuestras metas y objetivos personales que nos hemos propuesto.</p>
+            <p>Gracias por darme de tu tiempo y cariño.</p>
+            <button id="btn-cerrar">Cerrar Carta</button>
+        </div>
+    </div>
+
+    <div id="frase-locura">
+        "Entre todo lo malo que me pueda llevar a la locura,<br>
+        eres tú quien me mantiene cuerdo, a no ser que se trate de amarte...<br>
+        porque ya estoy locamente enamorado de usted. Siendo exactos desde un 02/06/2020" ❤️
     </div>
 
     <canvas id="canvas"></canvas>
@@ -54,9 +124,28 @@ const ctx = canvas.getContext('2d');
 const musica = document.getElementById('musica');
 const overlay = document.getElementById('overlay');
 const textoFinal = document.getElementById('final-text');
+const contBtnHistoria = document.getElementById('cont-btn-historia');
+const contBtnFinal = document.getElementById('cont-btn-final');
+const cartaGrande = document.getElementById('carta-grande');
+const btnCerrar = document.getElementById('btn-cerrar');
+const fraseLocura = document.getElementById('frase-locura');
 const PI = Math.PI;
 
 let width, height, scale;
+let fondoCanvas;
+let corazonesLluvia = [];
+let girasolesLluvia = [];
+let animacionContinuaActiva = false;
+let estadoCorazonFinal = { activo: false, escala: 0, explotado: false, beat: 0 };
+let ocultarRamo = false;
+
+const sobres = [
+    { x: -320, y: 150, ancho: 160, alto: 90, frase: "Tus ojitos son estrellas ✨", estado: "cerrado", offsetY: 0 },
+    { x: -320, y: -50, ancho: 160, alto: 90, frase: "Puedes contar conmigo 🫂", estado: "cerrado", offsetY: 1.5 },
+    { x: 180, y: 150, ancho: 160, alto: 90, frase: "Amo el como eres 😵‍💫", estado: "cerrado", offsetY: 3 },
+    { x: 180, y: -50, ancho: 160, alto: 90, frase: "Mi pequeña gruñona 😤", estado: "cerrado", offsetY: 4.5 }
+];
+
 function resize() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
@@ -68,42 +157,114 @@ resize();
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 function toRad(deg) { return deg * (PI / 180); }
 
-overlay.addEventListener('click', async () => {
-    overlay.style.display = 'none';
+document.getElementById('play-button').addEventListener('click', async () => {
+    overlay.style.opacity = 0;
+    setTimeout(() => overlay.style.display = 'none', 500);
     musica.play();
     await dibujar_regalo();
 });
 
 async function dibujar_regalo() {
-    const pos_moradas = [[-70, 70], [70, 70], [0, -30], [-120, -70], [120, -70]];
-    const pos_girasoles = [[-110, -10, 75], [110, -10, 75], [-50, -90, 65], [50, -90, 65], [0, 50, 95]]; // Centro al final
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+
+    const pos_moradas = [[-70, 70], [70, 70], [0, -30], [-120, -70], [120, -70], [-50, 10], [50, 10], [0, 90]];
+    const pos_girasoles = [
+        [-110, -10, 75], [110, -10, 75], [-50, -90, 65], [50, -90, 65],
+        [-90, 50, 60], [90, 50, 60], [0, 50, 105], [0, -70, 70]
+    ];
 
     const todas_las_flores = [...pos_moradas, ...pos_girasoles];
     for (const [x, y] of todas_las_flores) {
         drawStem(x*scale + width/2, height/2 - y*scale);
-        await sleep(150);
+        await sleep(350);
     }
 
+    await sleep(800);
     drawWrapping();
-    await sleep(600); 
+    await sleep(1000); 
 
     for (const [x, y] of pos_moradas) {
         await drawPurpleFlower(x*scale + width/2, height/2 - y*scale, 20*scale);
-        await sleep(300); 
+        await sleep(600); 
     }
 
     for (const [x, y, s] of pos_girasoles) {
         await drawSunflower(x*scale + width/2, height/2 - y*scale, s*scale);
-        await sleep(400); 
+        await sleep(800); 
     }
 
     await drawFloatingHearts();
     
     await sleep(800);
+    iniciarAnimacionContinua();
+
     textoFinal.style.display = 'block';
     await sleep(100);
     textoFinal.style.opacity = 1;
+
+    await sleep(1500);
+    contBtnHistoria.style.display = 'block';
+    setTimeout(() => contBtnHistoria.style.opacity = 1, 100);
+
+    canvas.addEventListener('click', manejarClicEnSobre);
 }
+
+document.getElementById('btn-nuestra-historia').addEventListener('click', () => {
+    contBtnHistoria.style.opacity = 0;
+    setTimeout(() => contBtnHistoria.style.display = 'none', 1000);
+    cartaGrande.style.display = 'flex';
+    setTimeout(() => cartaGrande.style.opacity = 1, 50);
+});
+
+btnCerrar.addEventListener('click', () => {
+    cartaGrande.style.opacity = 0;
+    setTimeout(() => {
+        cartaGrande.style.display = 'none';
+        contBtnFinal.style.display = 'block';
+        setTimeout(() => contBtnFinal.style.opacity = 1, 100);
+    }, 500);
+});
+
+document.getElementById('btn-final-magico').addEventListener('click', async () => {
+    contBtnFinal.style.opacity = 0;
+    setTimeout(() => contBtnFinal.style.display = 'none', 1000);
+    textoFinal.style.opacity = 0;
+    
+    document.body.style.backgroundColor = "#DCD0FF";
+    ocultarRamo = true;
+    
+    await sleep(1000);
+    estadoCorazonFinal.activo = true;
+    estadoCorazonFinal.escala = 0.1;
+
+    while (estadoCorazonFinal.escala < 5.0) {
+        estadoCorazonFinal.escala += 0.08;
+        estadoCorazonFinal.beat += 0.2;
+        await sleep(20);
+    }
+    
+    estadoCorazonFinal.explotado = true;
+
+    for (let i = 0; i < 40; i++) {
+        girasolesLluvia.push({
+            x: Math.random() * width,
+            y: Math.random() * height - height * 1.5,
+            s: Math.random() * 15 + 10,
+            v: Math.random() * 2 + 1.5,
+            a: Math.random() * PI * 2,
+        });
+    }
+
+    const coloresNuevos = ["#FF0000", "#800080", "#FFC0CB"];
+    for (let c of corazonesLluvia) { 
+        c.c = coloresNuevos[Math.floor(Math.random() * coloresNuevos.length)];
+        c.v += 1;
+    }
+
+    fraseLocura.style.display = 'block';
+    setTimeout(() => fraseLocura.style.opacity = 1, 100);
+});
 
 function drawStem(ex, ey) {
     ctx.strokeStyle = "forestgreen"; ctx.lineWidth = 5*scale;
@@ -187,6 +348,177 @@ async function drawFloatingHearts() {
         ctx.fill(); ctx.stroke();
         await sleep(300); 
     }
+}
+
+function iniciarAnimacionContinua() {
+    fondoCanvas = document.createElement('canvas');
+    fondoCanvas.width = width;
+    fondoCanvas.height = height;
+    fondoCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
+    const coloresLluvia = ["#FF69B4", "#DA70D6", "#FFB6C1"];
+    for (let i = 0; i < 35; i++) {
+        corazonesLluvia.push({
+            x: Math.random() * width,
+            y: Math.random() * height - height,
+            s: Math.random() * 8 + 6,
+            v: Math.random() * 1.5 + 0.5,
+            a: Math.random() * PI * 2,
+            c: coloresLluvia[Math.floor(Math.random() * coloresLluvia.length)]
+        });
+    }
+    animacionContinuaActiva = true;
+    requestAnimationFrame(animar);
+}
+
+function animar() {
+    if (!animacionContinuaActiva) return;
+    ctx.clearRect(0, 0, width, height);
+
+    if (!ocultarRamo) {
+        ctx.drawImage(fondoCanvas, 0, 0);
+    }
+
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(0,0,0,0.1)";
+    for (let c of corazonesLluvia) {
+        c.y += c.v;
+        c.x += Math.sin(c.a) * 0.5;
+        c.a += 0.03;
+        if (c.y > height + 20) { c.y = -20; c.x = Math.random() * width; }
+        ctx.fillStyle = c.c;
+        ctx.beginPath();
+        ctx.moveTo(c.x, c.y + c.s*0.3);
+        ctx.bezierCurveTo(c.x + c.s*0.6, c.y - c.s*0.5, c.x + c.s*1.5, c.y + c.s*0.5, c.x, c.y + c.s*1.3);
+        ctx.bezierCurveTo(c.x - c.s*1.5, c.y + c.s*0.5, c.x - c.s*0.6, c.y - c.s*0.5, c.x, c.y + c.s*0.3);
+        ctx.fill(); ctx.stroke();
+    }
+
+    if (!ocultarRamo) {
+        let tiempo = Date.now() / 1000;
+        for (let s of sobres) {
+            drawSobre(s, tiempo);
+        }
+    }
+
+    if (estadoCorazonFinal.explotado) {
+        for (let g of girasolesLluvia) {
+            g.y += g.v;
+            g.x += Math.sin(g.a) * 0.5;
+            g.a += 0.03;
+            if (g.y > height + 20) { g.y = -20; g.x = Math.random() * width; }
+            drawSunflowerHead(ctx, g.x, g.y, g.s);
+        }
+    }
+
+    if (estadoCorazonFinal.activo && !estadoCorazonFinal.explotado) {
+        let pulso = Math.sin(estadoCorazonFinal.beat) * 10 * scale;
+        ctx.fillStyle = "#ff1493";
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 3;
+        let hx = width/2;
+        let hy = height/2;
+        let hs = (20 * estadoCorazonFinal.escala * scale) + pulso;
+        ctx.beginPath();
+        ctx.moveTo(hx, hy + hs*0.3);
+        ctx.bezierCurveTo(hx + hs*0.6, hy - hs*0.5, hx + hs*1.5, hy + hs*0.5, hx, hy + hs*1.3);
+        ctx.bezierCurveTo(hx - hs*1.5, hy + hs*0.5, hx - hs*0.6, hy - hs*0.5, hx, hy + hs*0.3);
+        ctx.fill(); ctx.stroke();
+    }
+
+    requestAnimationFrame(animar);
+}
+
+function drawSobre(sobre, tiempo) {
+    let floatY = 0;
+    if (tiempo !== undefined) {
+        floatY = Math.sin(tiempo + sobre.offsetY) * 10 * scale;
+    }
+    const px = width/2 + sobre.x * scale;
+    const py = height/2 - sobre.y * scale + floatY;
+    const pAncho = sobre.ancho * scale;
+    const pAlto = sobre.alto * scale;
+
+    ctx.save();
+    ctx.fillStyle = "#FDF4E3";
+    ctx.strokeStyle = "#C4A77D";
+    ctx.lineWidth = 2 * scale;
+    
+    ctx.fillRect(px, py, pAncho, pAlto);
+    ctx.strokeRect(px, py, pAncho, pAlto);
+
+    if (sobre.estado === "cerrado") {
+        ctx.fillStyle = "#E9DDC3";
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(px + pAncho/2, py + pAlto * 0.6);
+        ctx.lineTo(px + pAncho, py);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+    } else {
+        ctx.fillStyle = "#E9DDC3";
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(px + pAncho/2, py - pAlto * 0.5);
+        ctx.lineTo(px + pAncho, py);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "black";
+        ctx.font = `${14 * scale}px 'Georgia', serif`;
+        ctx.textAlign = "center";
+        ctx.fillText(sobre.frase, px + pAncho/2, py + pAlto * 0.6);
+    }
+    ctx.restore();
+}
+
+function manejarClicEnSobre(event) {
+    if (ocultarRamo) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = event.clientX - rect.left;
+    const my = event.clientY - rect.top;
+    let tiempo = Date.now() / 1000;
+
+    for (let i = 0; i < sobres.length; i++) {
+        const sobre = sobres[i];
+        let floatY = Math.sin(tiempo + sobre.offsetY) * 10 * scale;
+        const px = width/2 + sobre.x * scale;
+        const py = height/2 - sobre.y * scale + floatY;
+        const pAncho = sobre.ancho * scale;
+        const pAlto = sobre.alto * scale;
+
+        if (mx >= px && mx <= px + pAncho && my >= py && my <= py + pAlto) {
+            sobres[i].estado = (sobres[i].estado === "cerrado") ? "abierto" : "cerrado";
+            break; 
+        }
+    }
+}
+
+function drawSunflowerHead(ctx, x, y, s) {
+    ctx.save();
+    ctx.fillStyle = "gold";
+    ctx.strokeStyle = "darkorange";
+    ctx.lineWidth = 1;
+    const num_petalos = 12;
+    for (let i = 0; i < num_petalos; i++) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(toRad(i * (360/num_petalos)));
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(s*0.5, s*0.5, s*0.5, -s*0.5, s, 0);
+        ctx.bezierCurveTo(s*0.5, s*0.5, s*0.5, -s*0.5, 0, 0);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+    }
+    ctx.fillStyle = "#4A2511";
+    ctx.beginPath();
+    ctx.arc(x, y, s*0.3, 0, PI*2);
+    ctx.fill();
+    ctx.restore();
 }
 </script>
 </body>
